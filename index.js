@@ -42,6 +42,13 @@ mf.event.Style = class extends mf.Event {
                 }
             }
             tgt_dom.styleListener(this.target(), fnc, this);
+            
+            let tgt_stl = tgt_dom.style(this.target());
+            if (null !== tgt_stl) {
+                let sty = {};
+                sty[this.target()] = tgt_stl;
+                this.execHandler(sty);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;

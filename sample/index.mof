@@ -1,0 +1,15 @@
+<require>
+    <tag module="mofron-comp-frame">Frame</tag>
+    <tag module="mofron-event-style">evStyle</tag>
+</require>
+
+
+<script run=init>
+let evt = (p1,p2) => { console.log(p2); }
+</script>
+<script>
+frm.width("1.5rem");
+</script>
+
+<Frame name=frm event=evStyle(evt,"width")>
+</Frame>

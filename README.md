@@ -24,6 +24,7 @@ npm install mofron mofron-event-style
     <tag module="mofron-event-style">evStyle</tag>
 </require>
 
+
 <script run=init>
 let evt = (p1,p2) => { console.log(p2); }
 </script>
@@ -38,8 +39,7 @@ frm.width("1.5rem");
 
 |Simple<br>Param | Parameter Name | Type | Description |
 |:--------------:|:---------------|:-----|:------------|
-| | initEvent | boolean | true: if the target key value is already set, the handler is executed. |
+| | initEvent | boolean | true: if the target key value is already set, the handler is executed. (default) |
 | | | | false: if the target key value is already set, the handler is not executed. |
-| ◯  | handler |  | handler parameter |
-| ◯  | targetKeys | string/array | watching target keys |
+| | targetKeys | string/array | watching target keys |
 

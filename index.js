@@ -83,13 +83,13 @@ mf.event.Style = class extends mf.Event {
     /**
      * whether running handler if the value of target keys are already set.
      *
-     * @param (boolean) true: if the target key value is already set, the handler is executed.
+     * @param (boolean) true: if the target key value is already set, the handler is executed. (default)
      *                  false: if the target key value is already set, the handler is not executed.
      * @return (boolean) init handler flag
      * @type parameter
      */
     initEvent (prm) {
-        try { return this.member("initEvent", "boolean", prm, false); } catch (e) {
+        try { return this.member("initEvent", "boolean", prm, true); } catch (e) {
             console.error(e.stack);
             throw e;
         }

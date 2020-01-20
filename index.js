@@ -1,30 +1,37 @@
 /**
  * @file mofron-event-style/index.js
  * @brief style change event for mofron
- *        event function is called when the component style is changed
- * @feature the target style keys can be specified by the "targetKeys" parameter
- *          all style keys are a target if "targetKeys" parameters are null
+ *        this event notifies when the component style of the key that the user specifies is changed
+ * ## event function parameter
+ *  - component: event target component object
+ *  - array: the value of the target style (0:new style value, 1:the previous style value)
+ *  - mixed: user specified parameter
+ * @feature the target style keys can be specified by the "tgtKeys" parameter
  *          you can select whether to make execute handler when a value is already set when this event is registered to the component
  * @attention for valid this event, style changing must be from the mofron API (ex. component.style()).
- * @author simpart
+ * @license MIT
  */
-const mf = require('mofron');
-mf.event.Style = class extends mf.Event {
+module.exports = class extends mofron.class.Event {
     /**
      * initialize event
      *
-     * @param (array/object) array: event handler [function,mixed]
-     *                       object:  event option
-     * @param (string/array) watching target style keys
-     * @pmap handler,targetKeys
+     * @param (mixed) short-form paramter
+     *                key-value: event config
+     * @short listener,tgtKeys
      * @type private
      */
-    constructor (po, p2) {
+    constructor (prm) {
         try {
             super();
             this.name("Style");
-            this.prmMap(["handler", "targetKeys"]);
-            this.prmOpt(po, p2);
+            this.shortForm("listener", "tgtKeys");
+            /* init config */
+	    this.confmng().add("tgtKeys", { type: "string", list: true });
+            this.confmng().add("initNotify", { type: "boolean", init: true });
+            /* set config */
+	    if (undefined !== prm) {
+                this.config(prm);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -33,47 +40,36 @@ mf.event.Style = class extends mf.Event {
     
     /**
      * set style listener
-     *
+     * 
+     * @param (mofron.class.Dom) target dom object
      * @type private
      */
     contents (tgt_dom) {
         try {
             let fnc = (p1, p2, p3) => {
-                try { p3.execHandler(p2); } catch (e) {
+                try {
+		    p3.execListener([p1,p2]);
+		} catch (e) {
                     console.error(e.stack);
                     throw e;
                 }
             }
-            let keys = this.targetKeys();
-            if (0 === keys.length) {
-                tgt_dom.styleListener(null, fnc, this);
-            } else {
-                for (let kidx in keys) {
-                    tgt_dom.styleListener(keys[kidx], fnc, this);
-                }
-            }
+            let keys = this.tgtKeys();
+            for (let kidx in keys) {
+                tgt_dom.style().listener(keys[kidx], fnc, this);
+	    }
+            
             /* init event */
-            if (true === this.initEvent()) {
-                let dm_st = tgt_dom.style();
-                let tkeys = this.targetKeys();
-                if (0 === tkeys.length) {
-                    for (let dt_idx in dm_st) {
-                        if ( ("" !== dm_st[dt_idx]) && (undefined !== dm_st[dt_idx]) ) {
-                            this.execHandler(dm_st);
-                            break;
-                        }
-                    }
-                } else {
-                    for (let tk_idx in tkeys) {
-                        if ( ("" !== dm_st[tkeys[tk_idx]]) &&
-                             (undefined !== dm_st[tkeys[tk_idx]]) ) {
-                            let ev_prm = {};
-                            ev_prm[tkeys[tk_idx]] = dm_st[tkeys[tk_idx]];
-                            this.execHandler(ev_prm);
-                        }
-                    }
-                }
-            }
+            if (true === this.initNotify()) {
+                for (let kidx2 in keys) {
+                    if (null !== tgt_dom.style(kidx2)) {
+		        let set_prm = [{},{}];
+			set_prm[0][keys[kidx2]] = tgt_dom.style(keys[kidx2]);
+			set_prm[1][keys[kidx2]] = null;
+                        this.execListener(set_prm);
+		    }
+		}
+	    }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -81,15 +77,17 @@ mf.event.Style = class extends mf.Event {
     }
     
     /**
-     * whether running handler if the value of target keys are already set.
+     * whether running lisning if the value of target keys are already set.
      *
      * @param (boolean) true: if the target key value is already set, the handler is executed. (default)
      *                  false: if the target key value is already set, the handler is not executed.
      * @return (boolean) init handler flag
      * @type parameter
      */
-    initEvent (prm) {
-        try { return this.member("initEvent", "boolean", prm, true); } catch (e) {
+    initNotify (prm) {
+        try {
+	    return this.confmng("initNotify", prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -99,16 +97,18 @@ mf.event.Style = class extends mf.Event {
     /**
      * watching target setter/getter
      *
-     * @param (string/array) watching target keys
-     * @return (array) watching target keys
+     * @param (mixed) string: listening target key
+     *                array: listening target keys
+     * @return (array) listening target keys
      * @type parameter
      */
-    targetKeys (prm) {
-        try { return this.arrayMember("targetKeys", "string", prm); } catch (e) {
+    tgtKeys (prm) {
+        try {
+	    return this.confmng("tgtKeys", prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
 }
-module.exports = mofron.event.Style;
 /* end of file */

@@ -3,13 +3,21 @@
     <tag module="mofron-event-style">evStyle</tag>
 </require>
 
-
-<script run=init>
-let evt = (p1,p2) => { console.log(p2); }
+<script name=sevt run=init>
+    console.log(sevt2);
 </script>
+
 <script>
-frm.width("1.5rem");
+    setTimeout(
+        () => {
+            frm.width("2rem");
+        },
+        1000
+    );
 </script>
 
-<Frame name=frm event=evStyle(evt,"width")>
+<Frame name=frm>
+    <event>
+        <evStyle init-notify=true>@sevt,width</evStyle>
+    </event>
 </Frame>

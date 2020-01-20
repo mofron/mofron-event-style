@@ -1,6 +1,6 @@
 {
   "name": "mofron-event-style",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "style change event for mofron component",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/mofron/mofron-event-style.git"
   },
   "keywords": [
-    "front-end"
+    "front-end","mofron"
   ],
   "author": "simparts",
   "license": "MIT",

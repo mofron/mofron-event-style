@@ -26,10 +26,10 @@ npm install mofron mofron-event-style
 
 # Sample
 ```html
-<require>
+<setting>
     <tag module="mofron-comp-frame">Frame</tag>
     <tag module="mofron-event-style">evStyle</tag>
-</require>
+</setting>
 
 <script name=sevt run=init>
     console.log(sevt2);

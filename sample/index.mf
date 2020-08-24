@@ -1,7 +1,7 @@
-<require>
+<setting>
     <tag module="mofron-comp-frame">Frame</tag>
     <tag module="mofron-event-style">evStyle</tag>
-</require>
+</setting>
 
 <script name=sevt run=init>
     console.log(sevt2);

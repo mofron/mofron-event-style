@@ -50,7 +50,7 @@ module.exports = class extends mofron.class.Event {
         try {
             let fnc = (p1, p2, p3) => {
                 try {
-		    p3.execListener([p1,p2]);
+		    p3.execListener(p2);
 		} catch (e) {
                     console.error(e.stack);
                     throw e;

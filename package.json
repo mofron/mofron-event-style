@@ -1,6 +1,6 @@
 {
   "name": "mofron-event-style",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "style change event for mofron component",
   "main": "index.js",
   "scripts": {
